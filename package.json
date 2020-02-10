@@ -8,8 +8,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "core-js": "^3.6.4",
     "vue": "^2.6.11"
+=======
+    "axios": "^0.19.2",
+    "core-js": "^3.6.4",
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.5",
+    "vuex": "^3.1.2"
+>>>>>>> 3a99ee95a889e25e28ecccf43b2ba0237645c711
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",
