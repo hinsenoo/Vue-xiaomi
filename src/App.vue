@@ -5,24 +5,24 @@
 </template>
 
 <script>
-// import axios from 'axios'
-import jsonp from 'jsonp'
+import axios from 'axios'
+// import jsonp from 'jsonp'
 
 export default {
   name: 'App',
-  data(){
-    return {
-      data: ''
-    }
-  },
+  // data(){
+  //   return {
+  //     data: ''
+  //   }
+  // },
   mounted(){
-    let url="https://www.imooc.com/u/loading";
-    // axios.get(url).then(()=>{});
-    jsonp(url,(err,res)=>{
-      let result = res;
-      this.data = result;
-      console.log(result);
-    })
+    let url="/api/common/adver-getadver";
+    axios.get(url).then(()=>{});
+    // axios.get('https://www.imooc.com/common/adver-getadver').then(()=>{});
+    // jsonp(url,(err,res)=>{
+    //   let result = res;
+    //   this.data = result;
+    // })
   }
 }
 </script>
