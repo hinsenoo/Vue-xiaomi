@@ -1,28 +1,23 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <!-- 所有的视图路由 -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-// import jsonp from 'jsonp'
+
+import jsonp from 'jsonp'
 
 export default {
   name: 'App',
-  // data(){
-  //   return {
-  //     data: ''
-  //   }
-  // },
+  data(){
+    return {
+
+    }
+  },
   mounted(){
-    let url="/api/common/adver-getadver";
-    axios.get(url).then(()=>{});
-    // axios.get('https://www.imooc.com/common/adver-getadver').then(()=>{});
-    // jsonp(url,(err,res)=>{
-    //   let result = res;
-    //   this.data = result;
-    // })
+
   }
 }
 </script>
