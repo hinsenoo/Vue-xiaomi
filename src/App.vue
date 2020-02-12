@@ -7,7 +7,6 @@
 
 <script>
 
-import jsonp from 'jsonp'
 
 export default {
   name: 'App',
