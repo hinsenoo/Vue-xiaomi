@@ -1,6 +1,5 @@
 <template>
     <div>
-        home
         <!-- 复用头部 尾部 -->
         <nav-header></nav-header>
         <router-view></router-view>
