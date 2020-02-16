@@ -143,16 +143,17 @@
                     params:{
                         categoryId: '100012',
                         // 取六条数据，方法一
-                        // pageSize: 6
+                        pageSize: 6
 
                     }
                 }).then((res)=>{
                     // 通过拦截返回的数据
                     // 取六条数据，方法二
-                    if(res.list.length >= 6){
-                        // 截取指定长度的数组
-                        this.phoneList = res.list.slice(0,6);
-                    }
+                    // if(res.list.length >= 6){
+                    //     // 截取指定长度的数组
+                    //     this.phoneList = res.list.slice(0,6);
+                    // }
+                    this.phoneList = res.list
                 })
             },
             goToCart(){
@@ -258,6 +259,7 @@
                             border-top: 1px solid #E5E5E5;
                             box-shadow: 0px 7px 6px 0px rgba(0,0,0,0.11);
                             transition: all 0.5s;
+                            background-color: #fff;
                             .product{
                                 float: left;
                                 width: 16.6%;
