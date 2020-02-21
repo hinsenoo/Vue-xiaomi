@@ -16,11 +16,24 @@ export default {
     }
   },
   mounted(){
-
+    this.getUser();
+    this.getCartCount();
+  },
+  methods:{
+    getUser(){
+      this.axios.get('/user').then(()=>{
+        // to-do 保存到 Vuex 里面
+      })
+    },
+    getCartCount(){
+      this.axios.get('/carts/products/sum').then(()=>{
+        // to-do 保存到 Vuex 里面
+      })
+    }
   }
 }
 </script>
-s
+
 <style lang="scss">
 @import './assets/scss/reset.scss';
 @import './assets/scss/config.scss';
