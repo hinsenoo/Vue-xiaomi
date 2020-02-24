@@ -41,6 +41,7 @@
     </div>
 </template>
 <script>
+    import { mapActions } from 'vuex'; 
     export default {
         name: 'login',
         data(){
@@ -59,10 +60,15 @@
                     password
                 }).then((res)=>{
                     this.$cookie.set('userId',res.id,{expires: '1M'});
-                    // to-do 保存用户名
+                    // 派发 触发 action 存储
+                    // Vuex 派发 方法一：
+                    // this.$store.dispatch('saveUserName',res.username);
+                    this.saveUserName(res.username);
                     this.$router.push('/index');
                 })
             },
+            // Vuex 派发 方法二： => saveUsername()
+            ...mapActions(['saveUserName']),
             register(){
                 this.axios.post('/user/register',{
                     // 注册的帐号密码
