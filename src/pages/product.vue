@@ -1,11 +1,163 @@
 <template>
-    <div>
-        product
+    <div class="product">
+        <product-param>
+            <template v-slot:buy>
+                <button class="btn">立即购买</button>
+            </template>
+        </product-param>
+        <div class="content">
+            <div class="item-bg">
+                <h2>小米9</h2>
+                <h3>小米9 战斗天使</h3>
+                <p>
+                    <a href="">全球首款双频 GP</a>
+                    <span>|</span>
+                    <a href="">骁龙845</a>
+                    <span>|</span>
+                    <a href="">AI 变焦双摄</a>
+                    <span>|</span>
+                    <a href="">红外人脸识别</a>
+                </p>
+                <div class="price">
+                    <span>￥<em>2599</em></span>
+                </div>
+            </div>
+            <div class="item-bg-2"></div>
+            <div class="item-bg-3"></div>
+            <div class="item-swiper">
+                <swiper :options="swiperOption">
+                    <swiper-slide><img src="/imgs/product/gallery-2.png" alt=""></swiper-slide>
+                    <swiper-slide><img src="/imgs/product/gallery-3.png" alt=""></swiper-slide>
+                    <swiper-slide><img src="/imgs/product/gallery-4.png" alt=""></swiper-slide>
+                    <swiper-slide><img src="/imgs/product/gallery-5.jpg" alt=""></swiper-slide>
+                    <swiper-slide><img src="/imgs/product/gallery-6.jpg" alt=""></swiper-slide>
+                    <!-- Optional controls -->
+                    <div class="swiper-pagination"  slot="pagination"></div>
+                </swiper>
+                <p class="desc">小米8 AI变焦双摄拍摄</p>
+            </div>
+            <div class="item-video">
+                <h2>60帧超慢动作摄影<br/>慢慢回味每一瞬间的精彩</h2>
+                <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br/>更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
+                <div class="video-bg" ></div>
+                
+            </div>
+        </div>
     </div>
 </template>
 <script>
+    import { swiper, swiperSlide } from 'vue-awesome-swiper'
+    import ProductParam from './../components/ProductParam'
     export default {
         // 组件名称
         name: 'product',
+        components: {
+            swiper, 
+            swiperSlide,
+            ProductParam,
+        },
+        data(){
+            return {
+                showSlide:'',//控制动画效果
+                product:{},//商品信息
+                swiperOption:{
+                    // 自动滑动
+                    autoplay:true,
+                    // 网格分布，3格
+                    slidesPerView:3,
+                    // slide 之间的距离
+                    spaceBetween: 30,
+                    // 根据惯性滑动，可能不止一格
+                    freeMode: true,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable :true,
+                    }
+                }
+            }
+        }
     }
 </script>
+<style lang="scss">
+    @import './../assets/scss/mixin.scss';
+    .product{
+        .content{
+            .item-bg{
+                background: url('/imgs/product/product-bg-1.png') no-repeat center;
+                height: 718px;
+                text-align: center;
+                h2{
+                    font-size: 80px;
+                    padding-top: 55px;
+                }
+                p{
+                    margin-top: 21px;
+                    margin-bottom: 40px;
+                    a{
+                        font-size: 16px;
+                        color: #333333;
+                    }
+                    span{
+                        margin: 0 15px;
+                    }
+                }
+                .price{
+                    font-size:30px;
+                    color:#333333;
+                    em{
+                        font-style:normal;
+                        font-size:38px;
+                    }
+                }
+            }
+            .item-bg-2{
+                background:url(/imgs/product/product-bg-2.png) no-repeat center;
+                height:480px;
+                background-size:1226px 397px;
+            }
+            .item-bg-3{
+                background:url(/imgs/product/product-bg-3.png) no-repeat center;
+                height:638px;
+                background-size:cover;
+            }
+            .item-swiper{
+                margin:36px auto 52px;
+                .desc{
+                    font-size:18px;
+                    color:#333333;
+                    text-align:center;
+                }
+                img{
+                    width:100%;
+                }
+            }
+            .item-video{
+                height: 1044px;
+                background-color: #070708;
+                margin-bottom: 76px;
+                color: #ffffff;
+                text-align: center;
+                h2{
+                    font-size: 60px;
+                    padding-top: 82px;
+                    margin-bottom: 47px;
+                }
+                p{
+                    font-size:24px;
+                    margin-bottom:58px;
+                }
+                .video-bg{
+                    background:url('/imgs/product/gallery-1.png') no-repeat center;
+                    background-size:cover;
+                    width:1226px;
+                    height:540px;
+                    margin:0 auto 120px;
+                    cursor:pointer;
+                }
+            }
+        }
+        button{
+            margin-left: 10px;
+        }
+    }
+</style>
