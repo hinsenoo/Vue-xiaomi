@@ -39,8 +39,15 @@
             <div class="item-video">
                 <h2>60帧超慢动作摄影<br/>慢慢回味每一瞬间的精彩</h2>
                 <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br/>更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
-                <div class="video-bg" ></div>
-                
+                <div class="video-bg" @click="showSlide=true"></div>
+                <div class="video-box">
+                    <!-- 遮罩层 -->
+                    <div class="overlay" v-if="showSlide"></div>
+                    <div class="video" v-bind:class="{'slide': showSlide}">
+                        <span class="icon-close" @click="showSlide=false"></span>
+                        <video src="/imgs/product/video.mp4" autoplay muted controls="controls" ></video>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -153,6 +160,49 @@
                     height:540px;
                     margin:0 auto 120px;
                     cursor:pointer;
+                }
+                // 视频弹框
+                .video-box{
+                    .overlay{
+                        @include position(fixed);
+                        background-color: #333333;
+                        opacity: 0.4;
+                        z-index: 10;
+                    }
+                    .video{
+                        position: fixed;
+                        top: -50%;
+                        left: 50%;
+                        transform: translate(-50%,-50%);
+                        z-index: 10;
+                        width: 1000px;
+                        height: 536px;
+                        opacity: 0;
+                        transition: all 0.6s;
+                        &.slide{
+                            top: 50%;
+                            opacity: 1;
+                        }
+                        .icon-close{
+                            position: absolute;
+                            top: 20px;
+                            right: 20px;
+                            cursor: pointer;
+                            @include bgImg(20px, 20px,'/imgs/icon-close.png');
+                            z-index: 11;
+                            border: 5px solid rgba(255, 102, 0, 0);
+                            border-radius: 20px;
+                            &:hover{
+                                background-color: #FF6600;
+                            }
+                        }
+                        video{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            outline: none;
+                        }
+                    }
                 }
             }
         }
