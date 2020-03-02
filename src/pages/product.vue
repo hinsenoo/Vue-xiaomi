@@ -1,14 +1,14 @@
 <template>
     <div class="product">
-        <product-param>
+        <product-param :title="product.name">
             <template v-slot:buy>
-                <button class="btn">立即购买</button>
+                <button class="btn" @click="buy">立即购买</button>
             </template>
         </product-param>
         <div class="content">
             <div class="item-bg">
-                <h2>小米9</h2>
-                <h3>小米9 战斗天使</h3>
+                <h2>{{product.name}}</h2>
+                <h3>{{product.subtitle}}</h3>
                 <p>
                     <a href="">全球首款双频 GP</a>
                     <span>|</span>
@@ -19,7 +19,7 @@
                     <a href="">红外人脸识别</a>
                 </p>
                 <div class="price">
-                    <span>￥<em>2599</em></span>
+                    <span>￥<em>{{product.price}}</em></span>
                 </div>
             </div>
             <div class="item-bg-2"></div>
@@ -40,11 +40,11 @@
                 <h2>60帧超慢动作摄影<br/>慢慢回味每一瞬间的精彩</h2>
                 <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br/>更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
                 <div class="video-bg" @click="showSlide='slideDown'"></div>
-                <div class="video-box">
+                <div class="video-box" v-show="showSlide">
                     <!-- 遮罩层 -->
                     <div class="overlay" v-if="showSlide=='slideDown'"></div>
                     <div class="video" v-bind:class="showSlide">
-                        <span class="icon-close" @click="showSlide='slideUp'"></span>
+                        <span class="icon-close" @click="closeVideo"></span>
                         <video src="/imgs/product/video.mp4" autoplay muted controls="controls" ></video>
                     </div>
                 </div>
@@ -91,6 +91,29 @@
                         clickable :true,
                     }
                 }
+            }
+        },
+        mounted(){
+            this.getProductInfo();
+        },
+        methods:{
+            // 获取商品信息
+            getProductInfo(){
+                let id = this.$route.params.id;
+                this.axios.get(`/products/${id}`)
+                .then((res)=>{
+                    this.product = res;
+                })
+            },
+            buy(){
+                let id = this.$route.params.id;
+                this.$router.push(`/detail/${id}`);
+            },
+            closeVideo(){
+                this.showSlide = 'slideUp';
+                setTimeout(()=>{
+                    this.showSlide = '';
+                },600)
             }
         }
     }
