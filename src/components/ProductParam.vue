@@ -31,7 +31,7 @@
         methods:{
             initHeight(){
                 // 页面 Y 轴偏移量 兼容 IE
-                let scrollTop = window.pageYOffset ||           document.document.scrollTop || document.body.scrollTop;
+                let scrollTop = window.pageYOffset ||           document.scrollTop || document.body.scrollTop;
                 this.isFixed = scrollTop > 152 ? true : false;
             }
         },
@@ -50,6 +50,7 @@
         border-top: 1px solid $colorH;
         background-color: $colorG;
         box-shadow: 0 5px 5px $colorE;
+        z-index: 10;
         &.is_fixed{
             position: fixed;
             top: 0;

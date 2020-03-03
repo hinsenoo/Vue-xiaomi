@@ -32,6 +32,8 @@ axios.interceptors.response.use(function (response){
     if(path != '#/index'){
       window.location.href = '/#/login';
     }
+    // 抛出错误，防止未登录进入购物车界面
+    return Promise.reject(res);
   }else{
     // 抛出异常
     alert(res.msg);

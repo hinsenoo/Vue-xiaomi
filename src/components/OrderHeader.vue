@@ -1,6 +1,6 @@
 <template>
-    <div>
-        order-footer
+    <div class="order-header">
+
     </div>
 </template>
 <script>
@@ -10,3 +10,6 @@
         
     }
 </script>
+<style lang="scss">
+    
+</style>

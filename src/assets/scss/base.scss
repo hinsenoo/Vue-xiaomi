@@ -15,3 +15,18 @@ input{
     box-sizing: border-box;
     font-size: 14px;
 }
+// 通用浮动
+.fl{
+    float: left;
+}
+.fr{
+    float: right; 
+}
+// 清除浮动——伪类
+.clearfix:before,.clearfix:after{
+    content: ' ';
+    display: table;
+}  
+.clearfix:after{
+    clear: both;
+}
