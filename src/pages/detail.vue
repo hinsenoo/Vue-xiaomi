@@ -109,7 +109,7 @@
                 }).then((res={cartProductVoList:0})=>{
                     // 获取购物车数量
                     this.$store.dispatch('saveCartCount',res.cartTotalQuantity);
-                    // this.$router.push('/cart');
+                    this.$router.push('/cart');
                 });
             }
         }
