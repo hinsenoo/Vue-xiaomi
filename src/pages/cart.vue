@@ -119,7 +119,7 @@
                 this.axios.delete(`/carts/${item.productId}`).then((res)=>{
                     this.renderData(res);
                 });
-                // To: 删除弹框，确认后再发送请求
+                // To: 删除弹框，确认后再发送请求，补充
             }
             ,
             // 全选切换
