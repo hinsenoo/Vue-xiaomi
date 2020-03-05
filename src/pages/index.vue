@@ -107,7 +107,7 @@
             <template v-slot:body>
                 <p>商品添加成功！</p>
             </template>
-            </modal>
+        </modal>
     </div>
 </template>
 <script>

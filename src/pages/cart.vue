@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="item-total">{{item.productTotalPrice}}元</div>
-                            <div class="item-del" @click="delProduct(item)"></div>
+                            <div class="item-del" @click="showModal=true;delItem=item;"></div>
                         </li>
                     </ul>
                 </div>
@@ -48,32 +48,48 @@
                     </div>
                     <div class="total fr">
                         合计：<span>{{cartTotalPrice}}</span>元
-                        <a href="javascript:;" class="btn">去结算</a>
+                        <a href="javascript:;" class="btn" @click="order">去结算</a>
                     </div>
                 </div>
             </div>
         </div>
         <service-bar></service-bar>
         <nav-footer></nav-footer>
+        <modal 
+            title="提示" 
+            sureText="确认删除" 
+            btnType="3"
+            modalType="middle"
+            :showModal="showModal"
+            @submit="delProduct"
+            @cancel="showModal=false">
+            <template v-slot:body>
+                <p>是否要删除该商品？</p>
+            </template>
+        </modal>
     </div>
 </template>
 <script>
     import OrderHeader from './../components/OrderHeader'; 
     import ServiceBar from './../components/ServiceBar'; 
     import NavFooter from './../components/NavFooter';
+    import Modal from './../components/Modal';
     export default {
         name: 'cart',
         components: {
             OrderHeader,
             ServiceBar,
-            NavFooter
+            NavFooter,
+            Modal
         },
         data(){
             return {
                 list: [],// 商品列表
                 allChecked: false,// 是否全选
                 cartTotalPrice: 0,// 商品总金额
-                checkedNum: 0//选中商品数量
+                checkedNum: 0,//选中商品数量
+                showModal: false,
+                delItem: {}
             }
         },
         mounted(){
@@ -115,11 +131,12 @@
                 })
             },
             //删除购物车商品 （单条）
-            delProduct(item){
-                this.axios.delete(`/carts/${item.productId}`).then((res)=>{
+            delProduct(){
+                this.axios.delete(`/carts/${this.delItem.productId}`).then((res)=>{
                     this.renderData(res);
+                    // To: 删除弹框，确认后再发送请求，补充
+                    this.showModal = false;
                 });
-                // To: 删除弹框，确认后再发送请求，补充
             }
             ,
             // 全选切换
@@ -135,6 +152,15 @@
                 this.allChecked = res.selectedAll;
                 this.cartTotalPrice = res.cartTotalPrice;
                 this.checkedNum = this.list.filter(item=>item.productSelected).length;
+            },
+            // 购物车下单
+            order(){
+                let isCheck = this.list.every(item=>!item.productSelected);
+                if(isCheck){
+                    alert('请选择一件商品');
+                }else{
+                    this.$router.push('/order/confirm');
+                }
             }
         }
     }
