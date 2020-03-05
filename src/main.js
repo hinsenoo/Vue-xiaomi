@@ -4,6 +4,10 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
+// 按需加载
+import { Message } from 'element-ui'
+// 确保引入样式
+import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
 import App from './App.vue'
 // import env from './env'
@@ -36,11 +40,11 @@ axios.interceptors.response.use(function (response){
     return Promise.reject(res);
   }else{
     // 抛出异常
-    alert(res.msg);
+    Message.warning(res.msg);
     return Promise.reject(res);
   }
 });
-
+// Element 插件
 // 挂载 axios
 Vue.use(VueAxios,axios);
 // 加载 Cookie
@@ -49,6 +53,7 @@ Vue.use(VueCookie);
 Vue.use(VueLazyLoad,{
   loading: '/imgs/loading-svg/loading-bars.svg'
 });
+Vue.prototype.$message = Message;
 // 生产环境提示
 Vue.config.productionTip = false
 

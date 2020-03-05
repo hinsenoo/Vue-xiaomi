@@ -76,7 +76,7 @@
                     password: 'admin2',
                     email: 'admin2@163.com'
                 }).then((res)=>{
-                    alert('注册成功',res);
+                    this.$message.success('注册成功',res);
                 })
             }
         }
