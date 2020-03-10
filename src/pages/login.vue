@@ -59,12 +59,28 @@
                     username,
                     password
                 }).then((res)=>{
-                    this.$cookie.set('userId',res.id,{expires: '1M'});
+                    this.$cookie.set('userId',res.id,{expires: 'Session'});
                     // 派发 触发 action 存储
                     // Vuex 派发 方法一：
                     // this.$store.dispatch('saveUserName',res.username);
                     this.saveUserName(res.username);
-                    this.$router.push('/index');
+                    // 路由 get（query）传参 
+                    // this.$router.push({
+                    //     路由路径
+                    //     path: '/index',
+                    //     query: {
+                    //         from: 'login'
+                    //     }
+                    // });
+                // })
+                    // 路由 post（params）传参 
+                    this.$router.push({
+                        // 路由名称
+                        name: 'index',
+                        params: {
+                            from: 'login'
+                        }
+                    });
                 })
             },
             // Vuex 派发 方法二： => saveUsername()
