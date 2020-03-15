@@ -19,5 +19,9 @@ module.exports = {
             }
         }
     },
+    // 浏览器调试
+    configureWebpack: {
+        devtool: 'source-map'
+    }
     
 }
