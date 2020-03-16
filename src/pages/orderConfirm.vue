@@ -26,7 +26,7 @@
                     <div class="item-address">
                         <h2 class="addr-title">收货地址</h2>
                         <div class="addr-list clearfix">
-                            <div class="addr-info" v-for="(item,index) in list" :key="index">
+                            <div class="addr-info" :class="{'checked': index == checkIndex}" @click="checkIndex=index" v-for="(item,index) in list" :key="index">
                                 <h2>{{item.receiverName}}</h2>
                                 <div class="phone">{{item.receiverMobile}}</div>
                                 <div class="street">{{item.receiverProvince + ' ' + item.receiverCity + ' ' + item.receiverDistrict + ' ' + item.receiverAddress}}</div>
@@ -36,7 +36,7 @@
                                         <svg class="icon icon-del"><use xlink:href="#icon-del"></use></svg>
                                     </a>
                                     <!-- 编辑 -->
-                                    <a href="javascript:;" class="fr">
+                                    <a href="javascript:;" class="fr" @click="editAddressModal(item )">
                                         <svg class="icon icon-edit"><use xlink:href="#icon-edit"></use></svg>        
                                     </a>
                                 </div>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="btn-group">
                         <a href="/#/cart" class="btn btn-default btn-large">返回购物车</a>
-                        <a href="javascript:;" class="btn btn-large">去结算</a>
+                        <a href="javascript:;" class="btn btn-large" @click="orderSubmit">去结算</a>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
             title="添加收货地址"
             btnType="1"
             :showModal="showEditModal"
-            @cancel="showEditModal=false"
+            @cancel="showEditModal=false;getAddressList();"
             @submit="submitAddress"
         >
             <template v-slot:body>
@@ -167,6 +167,7 @@
                 userAction: '', // 用户行为 0：新增 1：编辑 2：删除
                 showDelModal: false, // 是否显示删除弹框
                 showEditModal: false, // 是否显示新增弹框
+                checkIndex: 0 // 当前收获地址选中的索引
             }
         },
         components:{
@@ -189,10 +190,16 @@
                 this.checkedItem = {};
                 this.showEditModal = true;
             },
+            // 编辑新增地址弹框
+            editAddressModal(item){
+                this.userAction = 1;
+                this.checkedItem = item;
+                this.showEditModal = true;
+            },
             // 删除地址
             delAddress(item){
-                this.checkedItem = item;
                 this.userAction = 2;
+                this.checkedItem = item;
                 this.showDelModal = true;
             },
             // 地址删除、编辑、新增功能
@@ -264,7 +271,25 @@
                         this.count += item.quantity;
                     })
                 })
-            }
+            },
+            // 订单提交
+            orderSubmit(){
+                let item = this.list[this.checkIndex];
+                if(!item){
+                    this.$message.error('请选择一个收货地址');
+                    return;
+                }
+                this.axios.post('/orders',{
+                    shippingId: item.id
+                }).then((res)=>{
+                    this.$router.push({
+                        path: '/order/pay',
+                        query: {
+                            orderNo: res.orderNo
+                        }
+                    })
+                })
+            } 
         }
     }
 </script>
