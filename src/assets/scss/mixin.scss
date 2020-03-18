@@ -4,6 +4,7 @@
     justify-content: $hov;
     align-items: $col;
 }
+// 背景图片
 @mixin bgImg($w:0,$h:0,$img:'',$size:contain){
     display: inline-block;
     width: $w;
@@ -11,6 +12,7 @@
     background: url($img) no-repeat center;
     background-size: $size;
 }
+// 定位
 @mixin position($pos:absolute,$top:0,$left:0,$w:100%,$h:100%){
     position: $pos;
     top: $top;
@@ -26,4 +28,15 @@
     height: $h;
     background: url($img) no-repeat center;
     background-size: $size;
+}
+@mixin border($bw:1px,$bc:$colorF,$bs:solid) {
+    border: $bw $bs $bc; 
+}
+@mixin height($h:0,$lh:$h) {
+    height: $h;
+    line-height: $lh;
+}
+@mixin wH($w:0,$h:0) {
+    width:$w;
+    height: $h;
 }
