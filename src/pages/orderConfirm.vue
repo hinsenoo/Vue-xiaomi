@@ -20,6 +20,12 @@
                 </symbol>
             </defs>
         </svg>
+        <order-header title="订单确认">
+            <!-- 插槽传递 -->
+            <template v-slot:tip>
+                <span>请认真填写收获地址</span>
+            </template>
+        </order-header>
         <div class="wrapper">
             <div class="container">
                 <div class="order-box">
@@ -154,6 +160,7 @@
     </div>
 </template>
 <script>
+    import OrderHeader from './../components/OrderHeader'
     import Modal from './../components/Modal';
     export default {
         name: 'order-confirm',
@@ -171,7 +178,8 @@
             }
         },
         components:{
-            Modal
+            Modal,
+            OrderHeader
         },
         mounted(){
             this.getAddressList();

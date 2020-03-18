@@ -29,6 +29,7 @@ axios.defaults.timeout = 8000;
 axios.interceptors.response.use(function (response){
   let res = response.data;
   let path = location.hash;
+  // 业务错误拦截
   if(res.status == 0){
     return res.data;
   }else if(res.status == 10){
@@ -43,6 +44,11 @@ axios.interceptors.response.use(function (response){
     Message.warning(res.msg);
     return Promise.reject(res);
   }
+},(error)=>{
+  // 请求错误拦截 http 状态码
+  let res = error.response;
+  Message.error(res.data.message);
+  return Promise.reject(error);
 });
 // Element 插件
 // 挂载 axios
