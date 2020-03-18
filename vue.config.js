@@ -22,6 +22,9 @@ module.exports = {
     // 浏览器调试
     configureWebpack: {
         devtool: 'source-map'
-    }
+    },
+    // 关闭 ESlint 校验
+    // lintOnSave: false 
+
     
 }

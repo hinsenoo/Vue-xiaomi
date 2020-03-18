@@ -15,7 +15,7 @@
         },
         data(){
             return {
-                orderId: this.$route.query.orderNo,
+                orderId: this.$route.query.orderId,
                 // 返回的 html 源码
                 content: '',
                 loading: true, // 动画显示
