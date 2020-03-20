@@ -102,6 +102,13 @@
                     this.renderData(res);
                 })
             },
+            // 更新 Vuex 内购物车商品数量
+            getCartCount(){
+                this.axios.get('/carts/products/sum').then((cartRes=0)=>{
+                    // to-do 保存到 Vuex 里面
+                    this.$store.dispatch('saveCartCount',cartRes);
+                })
+            },
             // 更新购物车数量和购物车单选状态
             updateCart(item,type){
                 // 商品数量
@@ -127,8 +134,10 @@
                     quantity,
                     selected
                 }).then((res)=>{
+                    this.getCartCount();
                     this.renderData(res);
                 })
+                
             },
             //删除购物车商品 （单条）
             delProduct(){
@@ -138,6 +147,7 @@
                     this.$message.success('删除成功');
                 });
                 this.showModal = false;
+                this.getCartCount();
             }
             ,
             // 全选切换

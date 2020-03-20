@@ -203,6 +203,7 @@
                 })
             },
             goToCart(){
+                this.getCartCount();
                 // 路由跳转
                 this.$router.push('/cart');
             }

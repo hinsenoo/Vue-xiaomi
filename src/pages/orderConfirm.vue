@@ -290,13 +290,20 @@
                 this.axios.post('/orders',{
                     shippingId: item.id
                 }).then((res)=>{
-                    this.$router.push({
-                        path: '/order/pay',
-                        query: {
-                            orderNo: res.orderNo
-                        }
+                    // 提交订单后会删除购物车的数据，所以要更新 vuex 内的购物车商品数量
+                    this.axios.get('/carts/products/sum').then((cartRes=0)=>{
+                        // to-do 保存到 Vuex 里面
+                        this.$store.dispatch('saveCartCount',cartRes);
+                        // 待购物车数量结算后
+                        this.$router.push({
+                            path: '/order/pay',
+                            query: {
+                                orderNo: res.orderNo
+                            }
+                        })
                     })
-                })
+                    
+                });
             } 
         }
     }

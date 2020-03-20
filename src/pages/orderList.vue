@@ -9,7 +9,6 @@
         <div class="wrapper">
             <div class="container">
                 <div class="order-box">
-                    <loading v-if="loading"></loading>
                     <div class="order" v-for="(order,index) in list" :key="index">
                         <div class="order-title">
                             <div class="item-info fl">
@@ -47,6 +46,30 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 1. 分页器 -->
+                    <el-pagination
+                    v-if="false"
+                        class="pagination"
+                        background
+                        layout="prev, pager, next"
+                        :pageSize="pageSize"
+                        :total="total"
+                        @current-change="handleChange"
+                        >
+                    </el-pagination>
+                    <loading v-if="loading"></loading>
+                    <!-- 2. 点击加载更多 -->
+                    <div class="load-more" v-if="false">
+                        <el-button type="primary" :loading="loading" @click="loadMore">加载更多</el-button>
+                    </div>
+                    <!-- 3. 滚动加载 -->
+                    <div class="scroll-more"
+                        v-infinite-scroll="scrollMore"
+                        infinite-scroll-disabled="busy"
+                        infinite-scroll-distance="410"
+                    >
+                        <img src="/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-if="showScroll">
+                    </div>
                     <no-data v-if="!loading && list.length == 0"></no-data>
                 </div>
             </div>
@@ -57,17 +80,34 @@
     import OrderHeader from './../components/OrderHeader';
     import Loading from './../components/Loading';
     import NoData from './../components/NoData';
+    import { Pagination,Button } from 'element-ui';
+    // 滚动加载插件
+    import infiniteScroll from 'vue-infinite-scroll';
     export default {
         name: 'order-list',
         components: {
             OrderHeader,
             Loading,
-            NoData
+            NoData,
+            // elementui 组件名称 
+            // Pagination.name = el-pagination
+            [Pagination.name]: Pagination,
+            [Button.name]: Button
+        },
+        // 配置滚动加载组件的指令
+        directives: {
+            infiniteScroll 
         },
         data(){
             return {
-                loading:true,
-                list: []
+                loading:false,
+                list: [],
+                pageSize: 10, // 每页数量
+                pageNum: 1, // 页码
+                total: 0, // 订单总数
+                busy: false, // 滚动加载，是否触发
+                showNextPage: true, // 加载更多，是否显示按钮
+                showScroll: true, // 滚动加载图案显示
             }
         },
         mounted(){
@@ -75,9 +115,33 @@
         },
         methods: {
             getOrderList(){
-                this.axios.get('/orders').then((res)=>{
+                // loading 加载图标
+                this.loading = true;
+                // 初始化的时候 滚动加载禁用 
+                this.busy = true;
+                // 滚动加载图标
+                this.showScroll = false;
+                this.axios.get('/orders',{
+                    params: {
+                        // 指定每页数量
+                        pageSize: 10,
+                        // 指定页码数
+                        pageNum: this.pageNum
+                    }
+                }).then((res)=>{
                     this.loading = false;
-                    this.list = res.list;
+
+                    // 1. 分页器
+                    // this.list = res.list;
+
+                    // 2. 加载更多,数据累加
+                    this.list = this.list.concat(res.list);
+                    this.total = res.total;
+                    // 是否显示加载更多
+                    this.showNextPage = res.hasNextPage;
+                    // 页面第一次加载完毕后再打开滚动加载
+                    // 且有下一页列表再显示
+                    this.busy = !res.hasNextPage;
                 }).catch(()=>{
                     this.loading = false;
                 })
@@ -99,7 +163,52 @@
                         orderNo
                     }
                 });
-            }
+            },
+            // 1. 分页器
+            handleChange(pageNum){
+                // 当前页
+                this.pageNum = pageNum;
+                this.getOrderList();
+            },
+            // 2. 加载更多按钮
+            loadMore(){
+                // 页数累加
+                this.pageNum++;
+                this.getOrderList();
+            },
+            // 3. 滚动加载，通过 npm 插件实现
+            scrollMore(){
+                // 显示滚动图标
+                this.showScroll = true;
+                // 开启滚动加载
+                this.busy = true;
+                setTimeout(()=>{
+                    this.pageNum++;
+                    this.getList();
+                },500)
+            },
+            // 专门给 scrollMore 使用 
+            getList(){
+                this.showScroll = true;
+                this.axios.get('/orders',{
+                    params: {
+                        // 指定每页数量
+                        pageSize: 10,
+                        // 指定页码数
+                        pageNum: this.pageNum
+                    }
+                }).then((res)=>{
+                    this.list = this.list.concat(res.list);
+                    this.showScroll = false;
+                    // 判断是否有下一页
+                    if(res.hasNextPage){
+                        this.busy = false;
+                    }else{
+                        this.busy = true;
+                    }
+                }).catch(()=>{
+                })
+            },
         }
     }
 </script>
@@ -164,6 +273,9 @@
                             }
                         }
                     }
+                }
+                .pagination{
+                    text-align: right;
                 }
             }
             .pagination{
