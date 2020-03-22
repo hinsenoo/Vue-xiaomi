@@ -22,8 +22,8 @@
                             <a class="btn" @click="login">登录</a>
                         </div>
                         <div class="tips">
-                            <div class="sms" @click="register">手机短信登录/注册</div>
-                            <div class="reg">立即注册<span>|</span>忘记密码?</div>
+                            <div class="sms">手机短信登录/注册</div>
+                            <div class="reg"><a href="/#/register">立即注册</a><span>|</span>忘记密码?</div>
                         </div>
                     </div>
                 </div>
@@ -51,8 +51,22 @@
                 userId: '',
             }
         },
+        created(){
+            this.keyupSubmit();
+        },
         methods:{
             login(){
+                let errMsg = '';
+                // 判断错误类型
+                if(!this.username){
+                    errMsg = '请输入账号';
+                }else if(!this.password){
+                    errMsg = '请输入密码';
+                }
+                if(errMsg){
+                    this.$message.error(errMsg);
+                    return;
+                }
                 // 解构
                 let {username, password} = this;
                 this.axios.post('/user/login',{
@@ -83,18 +97,17 @@
                     });
                 })
             },
+            // 监听回车事件
+            keyupSubmit(){
+                document.onkeydown=()=>{
+                    let _key=window.event.keyCode;
+                    if(_key===13){
+                    this.login();
+                    }
+                }
+            },
             // Vuex 派发 方法二： => saveUsername()
             ...mapActions(['saveUserName']),
-            register(){
-                this.axios.post('/user/register',{
-                    // 注册的帐号密码
-                    username: 'admin2',
-                    password: 'admin2',
-                    email: 'admin2@163.com'
-                }).then((res)=>{
-                    this.$message.success('注册成功',res);
-                })
-            }
         }
     }
 </script>

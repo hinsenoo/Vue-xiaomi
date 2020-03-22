@@ -11,6 +11,7 @@ import OrderList from './pages/orderList'
 import OrderPay from './pages/orderPay'
 import AliPay from './pages/alipay'
 import Login from './pages/login'
+import Register from './pages/register'
 
 Vue.use(Router);
 
@@ -45,6 +46,12 @@ export default new Router({
                     component: Detail,
                 }
             ]
+        },
+        {
+            // 注册页面
+            path: '/register',
+            name: 'login',
+            component: Register
         },
         {
             // 购物车页面
